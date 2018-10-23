@@ -4,5 +4,5 @@
 #include <emscripten/emscripten.h>
 
 int main(int argc, char ** argv) {
-    printf("WASM Loaded, standing by.");
+    printf("WASM Loaded, standing by.\n");
 }

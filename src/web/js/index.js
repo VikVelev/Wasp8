@@ -1,5 +1,7 @@
-                    //func_name, return type, argument type, argument
+let emu = new Emulator();
+
 function start() {
-    let emu = new Emulator();
-    emu.init();
+    if (!emu.running) {
+        emu.init();
+    }
 }
