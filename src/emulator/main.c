@@ -3,6 +3,7 @@
 #include <time.h>
 
 #if _isWeb
+const int isWeb = 1;
 #include <emscripten/emscripten.h>
 #else
 const int isWeb = 0;
@@ -12,10 +13,13 @@ const int isWeb = 0;
 int main(int argc, char ** argv) {
 
     const char* _isWeb = getenv("web");
-    printf("WASM Loaded, standing by.\n");
     
-    if(isWeb == 0) {
+    if(!isWeb) {
+        printf("Standalone version.\n");
         initSDL();
+        eventHandling_SDL();
+    } else {
+        printf("WASM Loaded, standing by.\n");
     }
     
 }
