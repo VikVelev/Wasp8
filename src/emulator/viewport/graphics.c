@@ -1,9 +1,12 @@
 #include <SDL/SDL.h>
+#include <unistd.h>
+#include <limits.h>
+#include <stdio.h>
 
 static int WIDTH  = 1920;
 static int HEIGHT = 1080;
 static int BPP    = 32;
-
+static char * error_screen_path = "/home/viktorv/Projects/Wasp8/src/emulator/viewport/error.bmp";
 
 void initSDL() {
 
@@ -16,7 +19,8 @@ void initSDL() {
 
     //UPDATE SCREEN HERE
     screen = SDL_SetVideoMode( WIDTH, HEIGHT, BPP, SDL_SWSURFACE );
-    error_screen = SDL_LoadBMP( "../error.bmp" );
+
+    error_screen = SDL_LoadBMP( error_screen_path );
 
     SDL_BlitSurface( error_screen, NULL, screen, NULL );
 
