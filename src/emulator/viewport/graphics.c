@@ -28,26 +28,25 @@ void stop_SDL() {
 
 }
 
-void eventHandling_SDL() {
+void eventHandling_SDL(int *running) {
 
     error_screen = SDL_LoadBMP( error_screen_path );
 
     SDL_BlitSurface( error_screen, NULL, screen, NULL );
     SDL_Flip( screen );
 
-    int running = 1;
-
     //EVENT HANDLING
-    while(running) {
-        while (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event)) {
 
-            if(event.type == SDL_QUIT) {
-                running = 0;
-                stop_SDL();
-            }
-
-            //Handle events here
+        if(event.type == SDL_QUIT) {
+            *running = 0;
+            stop_SDL();
         }
+        //Handle events here
     }
+
 }
 
+int drawGraphics() {
+    return 0;
+}
