@@ -3,16 +3,17 @@
 #include <limits.h>
 #include <stdio.h>
 
-static int WIDTH  = 1920;
-static int HEIGHT = 1080;
+static const int SCALING = 15;
+static int WIDTH  = 64 * SCALING;
+static int HEIGHT = 32 * SCALING;
 static int BPP    = 32;
-static char * error_screen_path = "/home/viktorv/Projects/Wasp8/src/emulator/viewport/error.bmp";
+static char * error_screen_path = "";
 
 SDL_Surface* screen = NULL;
 SDL_Surface* error_screen = NULL;
 SDL_Event event;
 
-void initSDL() {
+void init_SDL() {
 
     SDL_Init( SDL_INIT_EVERYTHING );
     SDL_WM_SetCaption( "WASP8", NULL );
@@ -28,7 +29,7 @@ void stop_SDL() {
 
 }
 
-void eventHandling_SDL(int *running) {
+void event_handling_SDL(unsigned short *running) {
 
     error_screen = SDL_LoadBMP( error_screen_path );
 
@@ -47,6 +48,6 @@ void eventHandling_SDL(int *running) {
 
 }
 
-int drawGraphics() {
+int draw_graphics() {
     return 0;
 }

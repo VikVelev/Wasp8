@@ -1,13 +1,13 @@
 #include "./io.h"
 
-void setupInput() {
+void setup_input(chip8 *Chip8) {
     printf("Setting up input.\n");
 }
 
-int checkKeys() {
+int check_keys(chip8 *Chip8) {
     return 0; 
 }
 
-void loadGame(char * rom_dir) {
+void load_game(chip8 *Chip8, char * rom_dir) {
     printf("Loading game: %s.\n", rom_dir);
 }

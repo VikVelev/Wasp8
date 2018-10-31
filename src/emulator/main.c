@@ -16,42 +16,43 @@ const int isWeb = 0;
 int main(int argc, char ** argv) {
 
     const char* _isWeb = getenv("web");
-    int running = 1;
 
     if(!isWeb) {
         printf("Standalone version.\n");
-        initSDL();
+        init_SDL();
     } else {
         printf("WASM Loaded, standing by.\n");
     }
 
-    chip8 myChip8;
+    chip8 Chip8;
     
-    setupInput();
+    setup_input(&Chip8);
     
     // Initialize the Chip8 system and load the game into the memory  
-    initialize();
-    loadGame("pong");
+    initialize(&Chip8);
+    load_game(&Chip8, "pong");
     
-    myChip8.drawFlag = 0;
+    Chip8.drawFlag = 0;
+    Chip8.running = 1;
     // Emulation loop
-    while(running) {
+    while(Chip8.running) {
         
         // Emulate one cycle
-        emulateCycle(&myChip8.drawFlag);
-        eventHandling_SDL(&running);
+        emulate_cycle(&Chip8);
+        event_handling_SDL(&Chip8.running);
 
         // If the draw flag is set, update the screen
-        if(myChip8.drawFlag) {
-            drawGraphics();
+        // only two opcodes should set this flag: 0x00E0, 0xDXYN
+
+        if(Chip8.drawFlag) {
+            draw_graphics(&Chip8);
         }
 
         // Store key press state (Press and Release)
-        checkKeys();
+        check_keys(&Chip8);
     }
     
     printf("Closing...\n");
 
     return 0;
-    
 }

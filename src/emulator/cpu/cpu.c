@@ -1,15 +1,13 @@
 #include "./cpu.h"
+#include "./cpu_utils.c"
 
-typedef struct {
-    int something;
-    int something2;
-    int drawFlag;
-} chip8;
-
-int emulateCycle(int *drawCycle) {
-    return 0;
+void initialize(chip8 *Chip8) {
+    //init chip8 registers and memory
 }
 
-void initialize() {
-    
+void emulate_cycle(chip8 *Chip8) {
+    fetch_opcode(Chip8);
+    decode_opcode(Chip8);
+    execute_opcode(Chip8);
+    update_timers(Chip8);
 }
