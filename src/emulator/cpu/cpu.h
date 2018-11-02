@@ -1,5 +1,6 @@
 typedef struct {
     // stores the current opcode (every chip8 opcode is 2 bytes) (short is 2 bytes)
+    
     unsigned short opcode;
     unsigned char memory[4096];
     /*

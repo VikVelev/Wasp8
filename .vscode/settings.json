@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.lock": "json",
+        "Pipfile": "python",
+        "*.obj": "bat",
+        "*.mlx": "xml",
+        "ratio": "cpp"
+    }
+}

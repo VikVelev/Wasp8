@@ -30,7 +30,7 @@ int main(int argc, char ** argv) {
     
     // Initialize the Chip8 system and load the game into the memory  
     initialize(&Chip8);
-    load_game(&Chip8, "pong");
+    load_game(&Chip8, "/home/viktorv/Projects/Wasp8/TETRIS");
     
     Chip8.drawFlag = 0;
     Chip8.running = 1;
