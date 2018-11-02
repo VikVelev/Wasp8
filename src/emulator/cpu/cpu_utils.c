@@ -7,7 +7,17 @@ void fetch_opcode(chip8 *Chip8) {
 
 void decode_and_execute_opcode(chip8 *Chip8) {
     //convert from hex to string and then search in the opcode_map and execute. (AWESOME)
-    opcode_map[0].func(Chip8);
+    char *opcode_string;
+    sprintf(opcode_string, "0x%04X", Chip8->opcode);
+
+    int opcode_map_length = sizeof(opcode_map) / sizeof(opcode_map[0]);
+    
+    for(int i = 0; i < opcode_map_length; i++) {
+        if(opcode_map[i].suffices(opcode_string)){
+            opcode_map[i].func(Chip8);
+        }
+    }
+    
 }
 
 void update_timers(chip8 *Chip8) {
