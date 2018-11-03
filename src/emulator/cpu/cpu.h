@@ -1,3 +1,5 @@
+#include "../utils/stack.h"
+
 typedef struct {
     // stores the current opcode (every chip8 opcode is 2 bytes) (short is 2 bytes)
     
@@ -21,7 +23,7 @@ typedef struct {
     unsigned char delay_timer;
     unsigned char sound_timer;
 
-    unsigned short stack[16]; // Stack to remember current opcode, so the program can jump to a certain address at any time. 
+    Stack* stack; // Stack to remember current opcode, so the program can jump to a certain address at any time. 
     unsigned short sp; // Stack pointer
 
     unsigned char key[16]; // Chip8 has HEX based keyboard.

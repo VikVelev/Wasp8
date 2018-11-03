@@ -1,6 +1,9 @@
-#include "./cpu.h"
-#include "./cpu_utils.c"
 #include <string.h>
+#ifndef CHIP8
+#include "./cpu.h"
+#define CHIP8
+#endif
+#include "./cpu_utils.c"
 
 void initialize(chip8 *Chip8) {
 
@@ -31,6 +34,7 @@ void initialize(chip8 *Chip8) {
     Chip8->I = 0;
     Chip8->sp = 0;
 
+    Chip8->stack = createStack(16);
     // hacky way to set all array values to 0
     memset( Chip8->display, 0, sizeof Chip8->display );
     memset( Chip8->stack, 0, sizeof Chip8->stack );
