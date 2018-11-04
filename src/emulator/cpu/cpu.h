@@ -28,7 +28,51 @@ typedef struct {
 
     unsigned char key[16]; // Chip8 has HEX based keyboard.
 
-    unsigned short drawFlag;
+    unsigned short draw_flag;
     unsigned short running;
-
+    void (*log) ();
 } chip8;
+
+void debug_log(chip8 *Chip8) {
+    printf("DEBUG LOG\n");
+    printf("==============================\n");
+    printf("Chip8 running: %s\n", Chip8->running ? "true" : "false");
+    printf("\n");
+    printf("Currently executing instruction: 0x%04X\n", Chip8->opcode);
+    printf("\n");
+    printf("Chip8 Draw flag: 0x%04X\n", Chip8->draw_flag);
+    printf("\n");
+
+    printf("==============================\n");
+    printf("==========V registers=========\n");
+
+    for(int i = 0; i < 16; i++) {
+        printf("V[%02d]: 0x%02X\n", i+1, Chip8->V[i]);
+    }
+
+    printf("\n");
+    
+    printf("==========I register=========\n");
+    printf("I: 0x%04X\n", Chip8->I);
+
+    printf("\n");
+
+    printf("=======Program Counter=======\n");
+    printf("PC: %d\n", Chip8->PC);
+
+    printf("\n");
+    printf("Stack pointer : 0x%04X\n", Chip8->sp);
+    printf("\n");
+    printf("=======Stack trace===========\n");
+    
+    for(int i = 0; i < 16; i++) {
+        printf("%02d : 0x%04X\n", i+1, Chip8->stack->array[i]);
+    }
+    
+    printf("\n");
+    
+    printf("============Timers===========\n");
+    printf("Delay Timer: 0x%02X\n", Chip8->delay_timer);
+    printf("Sound Timer: 0x%02X\n", Chip8->sound_timer);
+
+}
