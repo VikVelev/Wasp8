@@ -15,7 +15,7 @@ INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 FLAGS ?= -s WASM=1 -O3
-STD_FLAGS ?= -MMD -MP -lm `pkg-config --libs --cflags sdl`
+STD_FLAGS ?= -MMD -MP -lm `pkg-config --libs --cflags sdl` -O3
 
 standalone: $(SRCS)
 	@echo "Building standalone version."

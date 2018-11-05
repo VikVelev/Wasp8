@@ -7,7 +7,6 @@ void __0x0NNN_op(chip8 *Chip8) {
     //Used to update the CMOS, who cares
     printf("I am a CMOS BEEP BOOP BUP\n");
     Chip8->log(Chip8);
-    sleep(10);
     Chip8->PC += 2;
 }
 
