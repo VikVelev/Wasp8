@@ -17,6 +17,8 @@ void decode_and_execute_opcode(chip8 *Chip8) {
             break;
         } else if (i == opcode_map_length - 1) {
             printf("Unknown or not implemented opcode 0x%04X.\n", Chip8->opcode);
+            Chip8->log(Chip8);
+            Chip8->running = 0;
         }
     }
 }

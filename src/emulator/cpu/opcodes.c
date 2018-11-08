@@ -5,8 +5,6 @@
 
 void __0x0NNN_op(chip8 *Chip8) {
     //Used to update the CMOS, who cares
-    printf("I am a CMOS BEEP BOOP BUP\n");
-    Chip8->log(Chip8);
     Chip8->PC += 2;
 }
 
@@ -19,6 +17,7 @@ int __0x0NNN_reqs(unsigned short opcode) {
 void __0x00E0_op(chip8 *Chip8) {
     memset( Chip8->display, 0, sizeof Chip8->display );
     Chip8->PC += 2;
+    Chip8->draw_flag = 1;
 }
 
 int __0x00E0_reqs(unsigned short opcode) {
@@ -30,6 +29,8 @@ int __0x00E0_reqs(unsigned short opcode) {
 void __0x00EE_op(chip8 *Chip8) {
     Chip8->PC = Chip8->stack->top;
     --Chip8->sp;
+    Chip8->PC += 2;
+
 }
 
 int __0x00EE_reqs(unsigned short opcode) {
@@ -40,6 +41,7 @@ int __0x00EE_reqs(unsigned short opcode) {
 
 void __0x1NNN_op(chip8 *Chip8) {
     Chip8->PC = Chip8->opcode & 0x0FFF;
+    Chip8->PC += 2;
 }
 
 int __0x1NNN_reqs(unsigned short opcode) {
@@ -64,9 +66,7 @@ void __0x3XKK_op(chip8 *Chip8) {
     unsigned short X = Chip8->opcode & 0x0F00;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    if(Chip8->V[X] == KK) {
-        Chip8->PC += 2;
-    }
+    Chip8->PC += (Chip8->V[X] == KK) ? 4 : 2;
 }
 
 int __0x3XKK_reqs(unsigned short opcode) {
@@ -79,9 +79,7 @@ void __0x4XKK_op(chip8 *Chip8) {
     unsigned short X = Chip8->opcode & 0x0F00;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    if(Chip8->V[X] != KK) {
-        Chip8->PC += 2;
-    }
+    Chip8->PC += (Chip8->V[X] != KK) ? 4 : 2;
 }
 
 int __0x4XKK_reqs(unsigned short opcode) {
@@ -94,9 +92,7 @@ void __0x5XY0_op(chip8 *Chip8) {
     unsigned short X = Chip8->opcode & 0x0F00;
     unsigned short Y = Chip8->opcode & 0x00F0;
 
-    if(Chip8->V[X] != Chip8->V[Y]) {
-        Chip8->PC += 2;
-    }
+    Chip8->PC += (Chip8->V[X] != Chip8->V[Y]) ? 4 : 2;
 }
 
 int __0x5XY0_reqs(unsigned short opcode) {
@@ -293,9 +289,7 @@ void __0x9XY0_op(chip8 *Chip8) {
     unsigned short X = Chip8->opcode & 0x0F00;
     unsigned short Y = Chip8->opcode & 0x00F0;
 
-    if(Chip8->V[X] != Chip8->V[Y]) {
-        Chip8->PC += 2;
-    }
+    Chip8->PC += (Chip8->V[X] != Chip8->V[Y]) ? 4 : 2;
 }
 
 int __0x9XY0_reqs(unsigned short opcode) {
@@ -331,11 +325,162 @@ void __0xCXKK_op(chip8 *Chip8) {
 
     unsigned char random_byte = (unsigned char) (rand() % 255);
     Chip8->V[X] = random_byte & KK;
+    Chip8->PC += 2;
+
 }
 
 int __0xCXKK_reqs(unsigned short opcode) {
     return ((opcode & 0xF000) == 0xC000);
 }
+
+//===========================================
+
+void __0xDXYN_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short N = Chip8->opcode & 0x000F;
+
+    Chip8->draw_flag = 1;
+    //Implement drawing here.
+    printf("DXYN: stub, TODO\n");
+
+    Chip8->PC += 2;
+}
+
+int __0xDXYN_reqs(unsigned short opcode) {
+    return ((opcode & 0xF000) == 0xD000);
+}
+
+//===========================================
+
+void __0xEX9E_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+    printf("EX9E: stub, TODO\n");
+
+    Chip8->PC += 2;
+}
+
+int __0xEX9E_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xE09E);
+}
+
+//===========================================
+
+void __0xEXA1_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+    printf("EXA1: stub, TODO\n");
+
+    Chip8->PC += 2;
+}
+
+int __0xEXA1_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xE0A1);
+}
+
+//===========================================
+
+void __0xFX07_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+
+    Chip8->V[X] = Chip8->delay_timer;
+    Chip8->PC += 2;
+}
+
+int __0xFX07_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF007);
+}
+
+//===========================================
+
+void __0xFX15_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+
+    Chip8->delay_timer = Chip8->V[X];
+    Chip8->PC += 2;
+}
+
+int __0xFX15_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF015);
+}
+
+//===========================================
+
+void __0xFX18_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+
+    Chip8->sound_timer = Chip8->V[X];
+    Chip8->PC += 2;
+}
+
+int __0xFX18_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF018);
+}
+
+//===========================================
+
+void __0xFX1E_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+
+    Chip8->I += Chip8->V[X];
+    Chip8->PC += 2;
+}
+
+int __0xFX1E_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF01E);
+}
+
+//===========================================
+
+void __0xFX29_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+
+    printf("FX29: stub!\n TODO");
+    Chip8->PC += 2;
+}
+
+int __0xFX29_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF029);
+}
+
+//===========================================
+
+void __0xFX33_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+
+    printf("FX33: stub!\n TODO");
+    Chip8->PC += 2;
+}
+
+int __0xFX33_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF033);
+}
+
+//===========================================
+
+void __0xFX55_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+
+    printf("FX55: stub!\n TODO");
+    Chip8->PC += 2;
+}
+
+int __0xFX55_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF055);
+}
+
+//===========================================
+
+void __0xFX65_op(chip8 *Chip8) {
+    unsigned short X = Chip8->opcode & 0x0F00;
+    
+    printf("FX65: stub!\n TODO");
+    Chip8->PC += 2;
+}
+
+int __0xFX65_reqs(unsigned short opcode) {
+    return ((opcode & 0xF0FF) == 0xF065);
+}
+
 
 const static struct {
 
@@ -367,4 +512,15 @@ const static struct {
     { "0xANNN", __0xANNN_reqs ,__0xANNN_op },
     { "0xBNNN", __0xBNNN_reqs ,__0xBNNN_op },
     { "0xCXKK", __0xCXKK_reqs ,__0xCXKK_op },
+    { "0xDXYN", __0xDXYN_reqs ,__0xDXYN_op },
+    { "0xEX9E", __0xEX9E_reqs ,__0xEX9E_op },
+    { "0xEXA1", __0xEXA1_reqs ,__0xEXA1_op },
+    { "0xFX07", __0xFX07_reqs ,__0xFX07_op },
+    { "0xFX15", __0xFX15_reqs ,__0xFX15_op },
+    { "0xFX18", __0xFX18_reqs ,__0xFX18_op },
+    { "0xFX1E", __0xFX1E_reqs ,__0xFX1E_op },
+    { "0xFX29", __0xFX29_reqs ,__0xFX29_op },
+    { "0xFX33", __0xFX33_reqs ,__0xFX33_op },
+    { "0xFX55", __0xFX55_reqs ,__0xFX55_op },
+    { "0xFX65", __0xFX65_reqs ,__0xFX65_op },
 };

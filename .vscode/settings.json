@@ -4,6 +4,7 @@
         "Pipfile": "python",
         "*.obj": "bat",
         "*.mlx": "xml",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "cpu.h": "c"
     }
 }

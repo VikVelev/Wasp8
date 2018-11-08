@@ -18,7 +18,12 @@ Stack* createStack(unsigned capacity)
 	Stack* stack = (Stack*) malloc(sizeof(Stack)); 
 	stack->capacity = capacity; 
 	stack->top = -1; 
-	stack->array = (unsigned short*) malloc(stack->capacity * sizeof(unsigned short)); 
+	stack->array = (unsigned short*) malloc(stack->capacity * sizeof(unsigned short));
+	
+	for (int i = 0; i < capacity; i++) {
+		stack->array[i] = 0x0000;
+	}
+	
 	return stack; 
 } 
 
