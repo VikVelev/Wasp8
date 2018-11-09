@@ -7,11 +7,8 @@ static const int SCALING = 16;
 static int WIDTH  = 64 * SCALING;
 static int HEIGHT = 32 * SCALING;
 static int BPP    = 32;
-static char * error_screen_path = "";
 
 SDL_Surface* screen = NULL;
-SDL_Surface* error_screen = NULL;
-
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
 SDL_Event event;
@@ -29,17 +26,12 @@ void init_SDL() {
 }
 
 void stop_SDL() {
-
-    SDL_FreeSurface( error_screen );
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     SDL_Quit();
-
 }
 
 void event_handling_SDL(unsigned short *running) {
-
-    error_screen = SDL_LoadBMP( error_screen_path );
-
-    SDL_BlitSurface( error_screen, NULL, screen, NULL );
 
     //EVENT HANDLING
     while (SDL_PollEvent(&event)) {
@@ -54,10 +46,8 @@ void event_handling_SDL(unsigned short *running) {
 }
 
 int draw_graphics(chip8 *Chip8) {
-    Uint8 *pixels = (Uint8*) screen->pixels;
-
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
+    for (int y = 0; y < HEIGHT/SCALING; y++) {
+        for (int x = 0; x < WIDTH/SCALING; x++) {
             if (Chip8->display[y + x] == 1) {
                 for (int scaling = -SCALING/4; scaling <= SCALING/4; scaling++) {
 
@@ -70,6 +60,7 @@ int draw_graphics(chip8 *Chip8) {
                     }
                     
                     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                    //TODO: add padding - big pixels/meta pixels
                     SDL_RenderDrawPoint(renderer, x, y);
                 }
             }
