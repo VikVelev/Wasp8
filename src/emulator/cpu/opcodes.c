@@ -65,7 +65,7 @@ int __0x2NNN_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x3XKK_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
     Chip8->PC += (Chip8->V[X] == KK) ? 4 : 2;
@@ -78,7 +78,7 @@ int __0x3XKK_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x4XKK_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
     Chip8->PC += (Chip8->V[X] != KK) ? 4 : 2;
@@ -91,8 +91,8 @@ int __0x4XKK_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x5XY0_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
     Chip8->PC += (Chip8->V[X] != Chip8->V[Y]) ? 4 : 2;
 }
@@ -104,7 +104,7 @@ int __0x5XY0_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x6XKK_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
     Chip8->V[X] = KK;
@@ -118,7 +118,7 @@ int __0x6XKK_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x7XKK_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
     Chip8->V[X] += KK;
@@ -132,8 +132,8 @@ int __0x7XKK_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY0_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
     Chip8->V[X] = Chip8->V[Y];
     Chip8->PC += 2;
@@ -146,8 +146,8 @@ int __0x8XY0_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY1_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
     Chip8->V[X] = Chip8->V[X] | Chip8->V[Y];
     Chip8->PC += 2;
@@ -160,8 +160,8 @@ int __0x8XY1_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY2_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
     Chip8->V[X] = Chip8->V[X] & Chip8->V[Y];
     Chip8->PC += 2;
@@ -174,8 +174,8 @@ int __0x8XY2_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY3_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
     Chip8->V[X] = Chip8->V[X] ^ Chip8->V[Y];
     Chip8->PC += 2;
@@ -188,16 +188,16 @@ int __0x8XY3_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY4_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
-    if(Chip8->V[Y >> 4] > (0xFF - Chip8->V[X >> 8])) {
+    if(Chip8->V[Y] > (0xFF - Chip8->V[X])) {
         Chip8->V[0xF] = 1; //carry
     } else {
         Chip8->V[0xF] = 0;
     }
 
-    Chip8->V[X >> 8] += Chip8->V[Y >> 4];
+    Chip8->V[X] += Chip8->V[Y];
     Chip8->PC += 2;  
 }
 
@@ -208,8 +208,8 @@ int __0x8XY4_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY5_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
     
     if(Chip8->V[X] > Chip8->V[Y]) {
         Chip8->V[0xF] = 1; //carry
@@ -228,8 +228,8 @@ int __0x8XY5_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY6_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
     
     if((Chip8->V[X] & 0x01) == 1) {
         Chip8->V[0xF] = 1; //carry
@@ -248,8 +248,8 @@ int __0x8XY6_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XY7_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
     
     if(Chip8->V[Y] > Chip8->V[X]) {
         Chip8->V[0xF] = 1; //carry
@@ -268,8 +268,8 @@ int __0x8XY7_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x8XYE_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
     
     if((Chip8->V[X] & 0x40) == 0b1000000) {
         Chip8->V[0xF] = 1; //carry
@@ -288,8 +288,8 @@ int __0x8XYE_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x9XY0_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+    unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
     Chip8->PC += (Chip8->V[X] != Chip8->V[Y]) ? 4 : 2;
 }
@@ -312,7 +312,7 @@ int __0xANNN_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xBNNN_op(chip8 *Chip8) {
-    Chip8->PC = ( Chip8->opcode & 0xFFF ) + Chip8->V[0];
+    Chip8->PC = ( Chip8->opcode & 0x0FFF ) + Chip8->V[0];
 }
 
 int __0xBNNN_reqs(unsigned short opcode) {
@@ -322,7 +322,7 @@ int __0xBNNN_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xCXKK_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
     unsigned char random_byte = (unsigned char) (rand() % 255);
@@ -338,8 +338,8 @@ int __0xCXKK_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xDXYN_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    unsigned short Y = Chip8->opcode & 0x00F0;
+    unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
+    unsigned short vY = Chip8->V[(Chip8->opcode & 0x00F0) >> 4];
     unsigned short N = Chip8->opcode & 0x000F;
     
     unsigned char pixel;
@@ -351,18 +351,18 @@ void __0xDXYN_op(chip8 *Chip8) {
 
         for(int j = 0; j < 8; j++) {
             if((pixel & (0x80 >> j)) != 0) {
-
-                if(Chip8->display[(X + j + ((Y + i) * 64))] == 1) {
+                if(Chip8->display[vX + i][vY + j] == 1) {
                     Chip8->V[0xF] = 1;
                 }
 
-                Chip8->display[X + j + ((Y + i) * 64)] ^= 1;
+                Chip8->display[vX + i][vY + j] ^= 1;
             }
         }
     }
 
     Chip8->draw_flag = 1;
     Chip8->PC += 2;
+    Chip8->log(Chip8);
 }
 
 int __0xDXYN_reqs(unsigned short opcode) {
@@ -372,10 +372,8 @@ int __0xDXYN_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xEX9E_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    printf("EX9E: stub, TODO\n");
-
-    Chip8->PC += 2;
+    unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
+    Chip8->PC += Chip8->key[vX] ? 4 : 2; 
 }
 
 int __0xEX9E_reqs(unsigned short opcode) {
@@ -385,10 +383,8 @@ int __0xEX9E_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xEXA1_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
-    printf("EXA1: stub, TODO\n");
-
-    Chip8->PC += 2;
+    unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
+    Chip8->PC += Chip8->key[vX] == 0 ? 4 : 2;
 }
 
 int __0xEXA1_reqs(unsigned short opcode) {
@@ -398,7 +394,7 @@ int __0xEXA1_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX07_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
     Chip8->V[X] = Chip8->delay_timer;
     Chip8->PC += 2;
@@ -411,7 +407,7 @@ int __0xFX07_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX15_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
     Chip8->delay_timer = Chip8->V[X];
     Chip8->PC += 2;
@@ -424,7 +420,7 @@ int __0xFX15_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX18_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
     Chip8->sound_timer = Chip8->V[X];
     Chip8->PC += 2;
@@ -437,7 +433,7 @@ int __0xFX18_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX1E_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
     Chip8->I += Chip8->V[X];
     Chip8->PC += 2;
@@ -450,9 +446,9 @@ int __0xFX1E_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX29_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
 
-    printf("FX29: stub!\n TODO");
+    Chip8->I = vX * 0x5;
     Chip8->PC += 2;
 }
 
@@ -463,10 +459,13 @@ int __0xFX29_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX33_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
-    printf("FX33: stub!\n TODO");
+    Chip8->memory[Chip8->I]     = Chip8->V[X] / 100;
+    Chip8->memory[Chip8->I + 1] = (Chip8->V[X] / 10) % 10;
+    Chip8->memory[Chip8->I + 2] = (Chip8->V[X] % 100) % 10;
     Chip8->PC += 2;
+
 }
 
 int __0xFX33_reqs(unsigned short opcode) {
@@ -476,9 +475,12 @@ int __0xFX33_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX55_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
-    printf("FX55: stub!\n TODO");
+    for(int i = 0; i < X; i++) {
+        Chip8->memory[Chip8->I + i] = Chip8->V[i];
+    }
+    
     Chip8->PC += 2;
 }
 
@@ -489,9 +491,12 @@ int __0xFX55_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xFX65_op(chip8 *Chip8) {
-    unsigned short X = Chip8->opcode & 0x0F00;
+    unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
+
+    for(int i = 0; i < X; i++) {
+       Chip8->V[i] = Chip8->memory[Chip8->I + i];
+    }
     
-    printf("FX65: stub!\n TODO");
     Chip8->PC += 2;
 }
 

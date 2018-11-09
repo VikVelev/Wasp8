@@ -1,5 +1,5 @@
 #include "../utils/stack.h"
-
+#include "string.h"
 typedef struct {
     // stores the current opcode (every chip8 opcode is 2 bytes) (short is 2 bytes)
     
@@ -18,7 +18,7 @@ typedef struct {
     0x050-0x0A0 - Used for the built in 4x5 pixel font set (0-F)
     0x200-0xFFF - Program ROM and work RAM
     */
-    unsigned char display[64 * 32]; // DISPLAY ARRAY (Holding value 1 or 0)
+    unsigned char display[64][32]; // [X][Y] DISPLAY ARRAY (Holding value 1 or 0)
 
     unsigned char delay_timer;
     unsigned char sound_timer;
@@ -75,4 +75,15 @@ void debug_log(chip8 *Chip8) {
     printf("Delay Timer: 0x%02X\n", Chip8->delay_timer);
     printf("Sound Timer: 0x%02X\n", Chip8->sound_timer);
 
+    printf("\n");
+    printf("============DISPLAY===========\n");
+
+
+    for (int i = 0; i < 32; i++) {
+        char row[128] = "";
+        for (int j = 0; j < 64; j++) {
+            strcat(row, (Chip8->display[j][i])? "O " : "_ ");
+        }
+        printf("%s\n", row);
+    }
 }
