@@ -46,27 +46,33 @@ void event_handling_SDL(unsigned short *running) {
 }
 
 int draw_graphics(chip8 *Chip8) {
-    for (int y = 0; y < HEIGHT/SCALING; y++) {
-        for (int x = 0; x < WIDTH/SCALING; x++) {
-            if (Chip8->display[y + x] == 1) {
+    for (int y = 0; y < HEIGHT; y += SCALING/2) {
+        for (int x = 0; x < WIDTH; x += SCALING/2) {
+            if (Chip8->display[(x/SCALING)*32 + (y/SCALING)*64] == 1) {
                 for (int scaling = -SCALING/4; scaling <= SCALING/4; scaling++) {
-
-                    if ( x <= -scaling) {
-                        scaling = (scaling < 0) ? -x : x;
+                    for (int scaling2 = -SCALING/4; scaling2 <= SCALING/4; scaling2++) {
+                                            
+                        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                        //TODO: add padding - big pixels/meta pixels
+                        SDL_RenderDrawPoint(renderer, x + scaling, y + scaling2);
                     }
-
-                    if ( y <= -scaling ) {
-                        scaling = (scaling < 0) ? -y : y;
-                    }
-                    
-                    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-                    //TODO: add padding - big pixels/meta pixels
-                    SDL_RenderDrawPoint(renderer, x, y);
                 }
             }
 
         }
     }
+
+    for (int y = 0; y < 32; ++y) {
+        for (int x = 0; x < 64; ++x) {
+            if (Chip8->display[x + y*64] != 0) {
+                    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                    // TODO: add padding - big pixels/meta pixels
+                    SDL_RenderDrawPoint(renderer, x, y);
+            }
+        }
+
+    }
+
 
     SDL_RenderPresent(renderer);
     return 0;
