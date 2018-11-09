@@ -11,7 +11,7 @@ void decode_and_execute_opcode(chip8 *Chip8) {
     
     for(int i = 0; i < opcode_map_length; i++) {
         if(opcode_map[i].suffices(Chip8->opcode)){
-            printf("0x%04X: Executing opcode %s.\n", Chip8->opcode, opcode_map[i].opcode_name);
+            printf("0x%04X: PC: %d, Executing opcode %s.\n", Chip8->opcode, Chip8->PC, opcode_map[i].opcode_name);
             opcode_map[i].exec(Chip8);
             printf("-\n");
             break;

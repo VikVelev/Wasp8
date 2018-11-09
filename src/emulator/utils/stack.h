@@ -40,8 +40,8 @@ void push(Stack* stack, unsigned short item)
 { 
 	if (isFull(stack)) 
 		return; 
-	stack->array[++stack->top] = item; 
-	printf("0x%04X pushed to stack.\n", item); 
+	stack->array[++stack->top] = item;
+	printf("PC: %d pushed to stack.\n", item); 
 } 
 
 // Function to remove an item from stack. It decreases top by 1 
@@ -49,5 +49,5 @@ unsigned short pop(Stack* stack)
 { 
 	if (isEmpty(stack)) 
 		return (unsigned short) -0xffff; 
-	return stack->array[stack->top--]; 
+	return stack->array[stack->top--];
 } 

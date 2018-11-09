@@ -27,10 +27,11 @@ int __0x00E0_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x00EE_op(chip8 *Chip8) {
-    Chip8->PC = Chip8->stack->top;
+    //Chip8->log(Chip8);
+    //printf("%d\n", Chip8->stack->top);
+    Chip8->PC = Chip8->stack->array[Chip8->stack->top];
     --Chip8->sp;
     Chip8->PC += 2;
-
 }
 
 int __0x00EE_reqs(unsigned short opcode) {
@@ -53,6 +54,7 @@ int __0x1NNN_reqs(unsigned short opcode) {
 void __0x2NNN_op(chip8 *Chip8) {
     Chip8->sp++;
     push(Chip8->stack, Chip8->PC);
+    //Chip8->log(Chip8);
     Chip8->PC = Chip8->opcode & 0x0FFF;
 }
 
@@ -339,11 +341,27 @@ void __0xDXYN_op(chip8 *Chip8) {
     unsigned short X = Chip8->opcode & 0x0F00;
     unsigned short Y = Chip8->opcode & 0x00F0;
     unsigned short N = Chip8->opcode & 0x000F;
+    
+    unsigned char pixel;
+
+    Chip8->V[0xF] = 0;
+
+    for (int i = 0; i < N; i++) {
+        pixel = Chip8->memory[Chip8->I + i];
+
+        for(int j = 0; j < 8; j++) {
+            if((pixel & (0x80 >> j)) != 0) {
+
+                if(Chip8->display[(X + j + ((Y + i) * 64))] == 1) {
+                    Chip8->V[0xF] = 1;
+                }
+
+                Chip8->display[X + j + ((Y + i) * 64)] ^= 1;
+            }
+        }
+    }
 
     Chip8->draw_flag = 1;
-    //Implement drawing here.
-    printf("DXYN: stub, TODO\n");
-
     Chip8->PC += 2;
 }
 
