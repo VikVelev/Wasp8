@@ -68,7 +68,7 @@ void __0x3XKK_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    Chip8->PC += (Chip8->V[X] == KK) ? 4 : 2;
+    Chip8->PC += ((Chip8->V[X] == KK) ? 4 : 2);
 }
 
 int __0x3XKK_reqs(unsigned short opcode) {
@@ -81,7 +81,7 @@ void __0x4XKK_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    Chip8->PC += (Chip8->V[X] != KK) ? 4 : 2;
+    Chip8->PC += ((Chip8->V[X] != KK) ? 4 : 2);
 }
 
 int __0x4XKK_reqs(unsigned short opcode) {
@@ -94,7 +94,7 @@ void __0x5XY0_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
-    Chip8->PC += (Chip8->V[X] != Chip8->V[Y]) ? 4 : 2;
+    Chip8->PC += ((Chip8->V[X] != Chip8->V[Y]) ? 4 : 2);
 }
 
 int __0x5XY0_reqs(unsigned short opcode) {
@@ -121,7 +121,7 @@ void __0x7XKK_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    Chip8->V[X] += KK;
+    Chip8->V[X] += KK;  
     Chip8->PC += 2;
 }
 
@@ -291,7 +291,7 @@ void __0x9XY0_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
-    Chip8->PC += (Chip8->V[X] != Chip8->V[Y]) ? 4 : 2;
+    Chip8->PC += ((Chip8->V[X] != Chip8->V[Y]) ? 4 : 2);
 }
 
 int __0x9XY0_reqs(unsigned short opcode) {
@@ -346,23 +346,25 @@ void __0xDXYN_op(chip8 *Chip8) {
 
     Chip8->V[0xF] = 0;
 
-    for (int i = 0; i < N; i++) {
-        pixel = Chip8->memory[Chip8->I + i];
+    for (int yline = 0; yline < N; yline++) {
 
-        for(int j = 0; j < 8; j++) {
-            if((pixel & (0x80 >> j)) != 0) {
-                if(Chip8->display[vX + i][vY + j] == 1) {
-                    Chip8->V[0xF] = 1;
+        pixel = Chip8->memory[Chip8->I + yline];
+        for(int xline = 0; xline < 8; xline++) {
+
+            if((pixel & (0x80 >> xline)) != 0) {
+
+                if(Chip8->display[(vX + xline + ((vY + yline) * 64))] == 1) {
+                    Chip8->V[0xF] = 1;                              
                 }
-
-                Chip8->display[vX + i][vY + j] ^= 1;
+                
+                Chip8->display[vX + xline + ((vY + yline) * 64)] ^= 1;
             }
         }
     }
 
     Chip8->draw_flag = 1;
     Chip8->PC += 2;
-    Chip8->log(Chip8);
+    //Chip8->log(Chip8);
 }
 
 int __0xDXYN_reqs(unsigned short opcode) {
@@ -384,7 +386,7 @@ int __0xEX9E_reqs(unsigned short opcode) {
 
 void __0xEXA1_op(chip8 *Chip8) {
     unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
-    Chip8->PC += Chip8->key[vX] == 0 ? 4 : 2;
+    Chip8->PC += (Chip8->key[vX] == 0 ? 4 : 2);
 }
 
 int __0xEXA1_reqs(unsigned short opcode) {

@@ -46,13 +46,12 @@ void event_handling_SDL(unsigned short *running) {
 }
 
 int draw_graphics(chip8 *Chip8) {
-    for (int y = 0; y < 32; y += SCALING/2) {
-        for (int x = 0; x < 64; x += SCALING/2) {
-            if (Chip8->display[x][y] == 1) { 
-                printf("X: %d, Y: %d\n", x, y);
-
+    
+    for (int y = 0; y < 32; y++) {
+        for (int x = 0; x < 64; x++) {
+            if (Chip8->display[(x)+(y)*64] == 1) {
                 SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-                SDL_RenderSetScale(renderer, SCALING, SCALING);                
+                SDL_RenderSetScale(renderer, SCALING, SCALING);
                 SDL_RenderDrawPoint(renderer, x, y);
             }
 

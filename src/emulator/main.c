@@ -33,7 +33,7 @@ int main(int argc, char ** argv) {
     
     // Initialize the Chip8 system and load the game into the memory  
     initialize(&Chip8);
-    load_game(&Chip8, "/home/viktorv/Projects/Wasp8/TETRIS");
+    load_game(&Chip8, "/home/viktorv/Projects/Wasp8/INVADERS");
     
 
     Chip8.draw_flag = 0;
@@ -57,7 +57,7 @@ int main(int argc, char ** argv) {
         Chip8.draw_flag = 0;
         // Store key press state (Press and Release)
         check_keys(&Chip8);
-        sleep(1/REFRESH_RATE);
+        sleep(1.0/5);
     }
     
     printf("Closing...\n");
