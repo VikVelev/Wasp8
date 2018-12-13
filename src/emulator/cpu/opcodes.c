@@ -354,7 +354,7 @@ void __0xDXYN_op(chip8 *Chip8) {
             if((pixel & (0x80 >> xline)) != 0) {
 
                 if(Chip8->display[(vX + xline + ((vY + yline) * 64))] == 1) {
-                    Chip8->V[0xF] = 1;                              
+                    Chip8->V[0xF] = 1;
                 }
                 
                 Chip8->display[vX + xline + ((vY + yline) * 64)] ^= 1;
