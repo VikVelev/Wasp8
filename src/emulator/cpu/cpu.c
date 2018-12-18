@@ -45,10 +45,12 @@ void initialize(chip8 *Chip8) {
     for(int i = 0; i < 80; i++) {
         Chip8->memory[i] = fontset[i];
     }
-
+    
     //reset timers
     Chip8->delay_timer = 0;
     Chip8->sound_timer = 0;
+    
+    Chip8->draw_flag = 1;
 }
 
 void emulate_cycle(chip8 *Chip8) {

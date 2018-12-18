@@ -27,8 +27,6 @@ int __0x00E0_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x00EE_op(chip8 *Chip8) {
-    //Chip8->log(Chip8);
-    //printf("%d\n", Chip8->stack->top);
     Chip8->PC = Chip8->stack->array[Chip8->stack->top];
     --Chip8->sp;
     Chip8->PC += 2;
@@ -42,7 +40,6 @@ int __0x00EE_reqs(unsigned short opcode) {
 
 void __0x1NNN_op(chip8 *Chip8) {
     Chip8->PC = Chip8->opcode & 0x0FFF;
-    Chip8->PC += 2;
 }
 
 int __0x1NNN_reqs(unsigned short opcode) {
@@ -52,8 +49,8 @@ int __0x1NNN_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x2NNN_op(chip8 *Chip8) {
+    Chip8->stack->array[Chip8->sp] = Chip8->PC;
     Chip8->sp++;
-    push(Chip8->stack, Chip8->PC);
     //Chip8->log(Chip8);
     Chip8->PC = Chip8->opcode & 0x0FFF;
 }
