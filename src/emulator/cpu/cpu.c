@@ -39,6 +39,7 @@ void initialize(chip8 *Chip8) {
     memset( Chip8->display, 0, sizeof Chip8->display );
     memset( Chip8->stack, 0, sizeof Chip8->stack );
     memset( Chip8->V, 0, sizeof Chip8->V );
+    memset( Chip8->key, 0, sizeof Chip8->key );
     memset( Chip8->memory, 0, sizeof Chip8->memory );
 
     // load font

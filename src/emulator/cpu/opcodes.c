@@ -384,6 +384,11 @@ int __0xEX9E_reqs(unsigned short opcode) {
 void __0xEXA1_op(chip8 *Chip8) {
     unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
     Chip8->PC += (Chip8->key[vX] == 0 ? 4 : 2);
+    printf("Click %d on the HEX KEYBOARD.\n", vX);
+    Chip8->log(Chip8, 0);
+    if (Chip8->key[vX] != 0) {
+        printf("NICE\n");
+    }
 }
 
 int __0xEXA1_reqs(unsigned short opcode) {

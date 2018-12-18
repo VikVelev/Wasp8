@@ -4,8 +4,9 @@ void setup_input(chip8 *Chip8) {
     printf("Setting up input.\n");
 }
 
-int check_keys(chip8 *Chip8) {
-    return 0; 
+int check_keys(chip8 **Chip8) {
+    printf("Got input.\n");
+    return 1;
 }
 
 void load_game(chip8 *Chip8, char * rom_dir) {
@@ -16,7 +17,7 @@ void load_game(chip8 *Chip8, char * rom_dir) {
 
     //4096 (all memory) - 512 (from 0x000 to 0x200 - oem memory)
     unsigned char buffer[ 4096 - 512 ];
-    fread(buffer, 4096-512, 1, game);
+    fread(buffer, 4096 - 512, 1, game);
 
     fseek(game, 0, SEEK_END);
     long buffer_size = ftell(game); //size in bytes

@@ -34,7 +34,7 @@ typedef struct {
     void (*log) ();
 } chip8;
 
-void debug_log(chip8 *Chip8) {
+void debug_log(chip8 *Chip8, int screen) {
     printf("DEBUG LOG\n");
     printf("==============================\n");
     printf("Chip8 running: %s\n", Chip8->running ? "true" : "false");
@@ -48,11 +48,16 @@ void debug_log(chip8 *Chip8) {
     printf("==========V registers=========\n");
 
     for(int i = 0; i < 16; i++) {
-        printf("V[%02d]: 0x%02X\n", i+1, Chip8->V[i]);
+        printf("V[%02d]: 0x%02X\n", i, Chip8->V[i]);
     }
 
     printf("\n");
     
+    printf("==========   Keys   =========\n");
+    for(int i = 0; i < 16; i++) {
+        printf("Key[%02d]: 0x%02X\n", i+1, Chip8->key[i]);
+    }
+
     printf("==========I register=========\n");
     printf("I: 0x%04X\n", Chip8->I);
 
@@ -67,7 +72,7 @@ void debug_log(chip8 *Chip8) {
     printf("=======Stack trace===========\n");
     
     for(int i = 0; i < 16; i++) {
-        printf("%02d : 0x%04X\n", i+1, Chip8->stack->array[i]);
+        printf("%d : 0x%04X\n", i+1, Chip8->stack->array[i]);
     }
     
     printf("\n");
@@ -76,15 +81,17 @@ void debug_log(chip8 *Chip8) {
     printf("Delay Timer: 0x%02X\n", Chip8->delay_timer);
     printf("Sound Timer: 0x%02X\n", Chip8->sound_timer);
 
-    printf("\n");
-    printf("============DISPLAY===========\n");
+    if(screen) {
+        printf("\n");
+        printf("============DISPLAY===========\n");
 
 
-    for (int i = 0; i < 32; i++) {
-        char row[128] = "";
-        for (int j = 0; j < 64; j++) {
-            strcat(row, (Chip8->display[(j)+(i)*64] == 1)? "O " : "_ ");
+        for (int i = 0; i < 32; i++) {
+            char row[128] = "";
+            for (int j = 0; j < 64; j++) {
+                strcat(row, (Chip8->display[(j)+(i)*64] == 1)? "O " : "_ ");
+            }
+            printf("%s\n", row);
         }
-        printf("%s\n", row);
     }
 }
