@@ -13,7 +13,6 @@ void decode_and_execute_opcode(chip8 *Chip8) {
         if(opcode_map[i].suffices(Chip8->opcode)){
             printf("0x%04X: PC: %d, Executing opcode %s.\n", Chip8->opcode, Chip8->PC, opcode_map[i].opcode_name);
             opcode_map[i].exec(Chip8);
-                        
             break;
         } else if (i == opcode_map_length - 1) {
             printf("Unknown or not implemented opcode 0x%04X.\n", Chip8->opcode);

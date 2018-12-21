@@ -29,11 +29,13 @@ int main(int argc, char ** argv) {
 
     chip8 Chip8;
     Chip8.log = debug_log;
+    Chip8.debug_screen = 0;
+
     setup_input(&Chip8);
     
     // Initialize the Chip8 system and load the game into the memory  
     initialize(&Chip8);
-    load_game(&Chip8, "/home/viktorv/Projects/Wasp8/INVADERS");
+    load_game(&Chip8, "/home/viktorv/Projects/Wasp8/TETRIS");
     
 
     Chip8.draw_flag = 0;
@@ -52,10 +54,10 @@ int main(int argc, char ** argv) {
 
         if(Chip8.draw_flag) {
             draw_graphics(&Chip8);
+            Chip8.draw_flag = 0;
         }
-
-        Chip8.draw_flag = 0;
-        usleep(1000*50);
+        
+        usleep(1000*1000/840);
     }
     
     printf("Closing...\n");

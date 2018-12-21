@@ -31,10 +31,12 @@ typedef struct {
 
     unsigned short draw_flag;
     unsigned short running;
+    Stack* history;
+    int debug_screen;
     void (*log) ();
 } chip8;
 
-void debug_log(chip8 *Chip8, int screen) {
+void debug_log(chip8 *Chip8) {
     printf("DEBUG LOG\n");
     printf("==============================\n");
     printf("Chip8 running: %s\n", Chip8->running ? "true" : "false");
@@ -57,6 +59,8 @@ void debug_log(chip8 *Chip8, int screen) {
     for(int i = 0; i < 16; i++) {
         printf("Key[%02d]: 0x%02X\n", i+1, Chip8->key[i]);
     }
+    
+    printf("\n");
 
     printf("==========I register=========\n");
     printf("I: 0x%04X\n", Chip8->I);
@@ -80,8 +84,8 @@ void debug_log(chip8 *Chip8, int screen) {
     printf("============Timers===========\n");
     printf("Delay Timer: 0x%02X\n", Chip8->delay_timer);
     printf("Sound Timer: 0x%02X\n", Chip8->sound_timer);
-
-    if(screen) {
+    
+    if(Chip8->debug_screen) {
         printf("\n");
         printf("============DISPLAY===========\n");
 
