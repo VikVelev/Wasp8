@@ -5,7 +5,7 @@
 
 void __0x0NNN_op(chip8 *Chip8) {
     //Used to update the CMOS, who cares
-    Chip8->PC += 2;
+    // Chip8->PC += 2;
 }
 
 int __0x0NNN_reqs(unsigned short opcode) {
@@ -17,8 +17,8 @@ int __0x0NNN_reqs(unsigned short opcode) {
 void __0x00E0_op(chip8 *Chip8) {
     printf("Clearing Screen\n");
     memset( Chip8->display, 0, sizeof Chip8->display );
-    Chip8->PC += 2;
     Chip8->draw_flag = 1;
+    Chip8->PC += 2;
 }
 
 int __0x00E0_reqs(unsigned short opcode) {
@@ -57,6 +57,7 @@ int __0x1NNN_reqs(unsigned short opcode) {
 void __0x2NNN_op(chip8 *Chip8) {
     Chip8->stack->array[Chip8->sp] = Chip8->PC;
     Chip8->sp++;
+    Chip8->stack->top++;
     //Chip8->log(Chip8);
     Chip8->PC = Chip8->opcode & 0x0FFF;
 }
@@ -71,7 +72,7 @@ void __0x3XKK_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    Chip8->PC += Chip8->V[X] == KK ? 4 : 2;
+    Chip8->PC += (Chip8->V[X] == KK ? 4 : 2);
 }
 
 int __0x3XKK_reqs(unsigned short opcode) {
@@ -84,7 +85,7 @@ void __0x4XKK_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    Chip8->PC += Chip8->V[X] != KK ? 4 : 2;
+    Chip8->PC += (Chip8->V[X] != KK ? 4 : 2);
 }
 
 int __0x4XKK_reqs(unsigned short opcode) {
@@ -97,7 +98,7 @@ void __0x5XY0_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
-    Chip8->PC += Chip8->V[X] != Chip8->V[Y] ? 4 : 2;
+    Chip8->PC += (Chip8->V[X] == Chip8->V[Y] ? 4 : 2);
 }
 
 int __0x5XY0_reqs(unsigned short opcode) {
@@ -193,14 +194,18 @@ int __0x8XY3_reqs(unsigned short opcode) {
 void __0x8XY4_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
+    
+    //IDK IF THIS SHOULD BE HERE
+    Chip8->V[X] += Chip8->V[Y];
 
     if(Chip8->V[Y] > (0xFF - Chip8->V[X])) {
         Chip8->V[0xF] = 1; //carry
     } else {
         Chip8->V[0xF] = 0;
     }
-
-    Chip8->V[X] += Chip8->V[Y];
+    
+    //OR HERE
+    
     Chip8->PC += 2;  
 }
 
@@ -286,7 +291,7 @@ void __0x9XY0_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short Y = (Chip8->opcode & 0x00F0) >> 4;
 
-    Chip8->PC += ((Chip8->V[X] != Chip8->V[Y]) ? 4 : 2);
+    Chip8->PC += (Chip8->V[X] != Chip8->V[Y] ? 4 : 2);
 }
 
 int __0x9XY0_reqs(unsigned short opcode) {
@@ -320,8 +325,7 @@ void __0xCXKK_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
     unsigned short KK = Chip8->opcode & 0x00FF;
 
-    unsigned char random_byte = (unsigned char) (rand() % 255);
-    Chip8->V[X] = random_byte & KK;
+    Chip8->V[X] = (rand() % (0xFF + 1)) & KK;
     Chip8->PC += 2;
 
 }
@@ -418,7 +422,7 @@ void __0xFX0A_op(chip8 *Chip8) {
         }
     }
 
-    Chip8->PC += keypress ? 2 : 0;
+    Chip8->PC += (keypress ? 2 : 0);
 }
 
 int __0xFX0A_reqs(unsigned short opcode) {
@@ -503,10 +507,15 @@ int __0xFX33_reqs(unsigned short opcode) {
 void __0xFX55_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
-    for(int i = 0; i < X; i++) {
-        Chip8->memory[Chip8->I++] = Chip8->V[i];
+    for (int i = 0; i < X + 1; i++) {
+        Chip8->memory[Chip8->I + i] = Chip8->V[i];
     }
 
+    // On the original interpreter, when the
+    // operation is done, I = I + X + 1.
+    // Chip8->I = Chip8->I + X + 1;
+    // But it causes the BC_test.ch8 to fail, idk if the test is wrong or what
+    
     Chip8->PC += 2;
 }
 
@@ -519,9 +528,14 @@ int __0xFX55_reqs(unsigned short opcode) {
 void __0xFX65_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
-    for(int i = 0; i < X; i++) {
-       Chip8->V[i] = Chip8->memory[Chip8->I++];
+    for (int i = 0; i < X + 1; i++) {
+        Chip8->V[i] = Chip8->memory[Chip8->I + i];
     }
+
+    // On the original interpreter, when the
+    // operation is done, I = I + X + 1.
+    // Chip8->I = Chip8->I + X + 1;
+    // But it causes the BC_test.ch8 to fail, idk if the test is wrong or what
 
     Chip8->PC += 2;
 }
