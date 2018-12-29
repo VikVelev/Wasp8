@@ -29,10 +29,12 @@ typedef struct {
 
     unsigned char key[16]; // Chip8 has HEX based keyboard.
 
-    unsigned short draw_flag;
-    unsigned short running;
+    unsigned short draw_flag; //0 or 1
+    unsigned short running;  //0 or 1
     Stack* history;
-    int debug_screen;
+
+    int debug_screen; //0 or 1
+    int vintage_emulation; //0 or 1
     void (*log) ();
 } chip8;
 

@@ -3,6 +3,9 @@
 #define CHIP8
 #endif
 
+// Opcode documentation can be found at
+// http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#Fx0A
+
 void __0x0NNN_op(chip8 *Chip8) {
     //Used to update the CMOS, who cares
     // Chip8->PC += 2;
@@ -513,8 +516,11 @@ void __0xFX55_op(chip8 *Chip8) {
 
     // On the original interpreter, when the
     // operation is done, I = I + X + 1.
-    // Chip8->I = Chip8->I + X + 1;
-    // But it causes the BC_test.ch8 to fail, idk if the test is wrong or what
+    
+    if (Chip8->vintage_emulation) {
+        // But it causes the BC_test.ch8 to fail, idk if the test is wrong or what
+        Chip8->I = Chip8->I + X + 1;
+    }
     
     Chip8->PC += 2;
 }
@@ -534,8 +540,11 @@ void __0xFX65_op(chip8 *Chip8) {
 
     // On the original interpreter, when the
     // operation is done, I = I + X + 1.
-    // Chip8->I = Chip8->I + X + 1;
-    // But it causes the BC_test.ch8 to fail, idk if the test is wrong or what
+    
+    if (Chip8->vintage_emulation) {
+        // But it causes the BC_test.ch8 to fail, idk if the test is wrong or what
+        Chip8->I = Chip8->I + X + 1;
+    }
 
     Chip8->PC += 2;
 }

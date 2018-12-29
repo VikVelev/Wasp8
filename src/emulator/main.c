@@ -30,6 +30,7 @@ int main(int argc, char ** argv) {
     chip8 Chip8;
     Chip8.log = debug_log;
     Chip8.debug_screen = 0;
+    Chip8.vintage_emulation = 0;
 
     setup_input(&Chip8);
     
@@ -49,11 +50,14 @@ int main(int argc, char ** argv) {
         emulate_cycle(&Chip8);
         event_handling_SDL(&Chip8.running, &Chip8);
 
+        long bg_color = 0x101b2d;
+        long draw_color = 0xf4f4f4;
         // If the draw flag is set, update the screen
         // only two opcodes should set this flag: 0x00E0, 0xDXYN
-
+    
         if(Chip8.draw_flag) {
-            draw_graphics(&Chip8);
+            // draw_graphics(chip8 *Chip8, long bg_color, long draw_color, int (bool) invert colors, int (bool) swap colors)
+            draw_graphics(&Chip8, bg_color, draw_color, 0, 1);
             Chip8.draw_flag = 0;
         }
         

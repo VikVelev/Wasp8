@@ -87,16 +87,34 @@ void event_handling_SDL(unsigned short *running, chip8 *Chip8) {
     }
 }
 
-int draw_graphics(chip8 *Chip8) {
-    if(Chip8->opcode == 0x00) {
+int draw_graphics(chip8 *Chip8, long bg_color, long draw_color, int invert, int swap) {
 
+    if(invert) {
+        bg_color = 0xffffff - bg_color;
+        draw_color = 0xffffff - draw_color;
     }
+
+    if(swap) {
+        long temp_bg_color = bg_color;
+        bg_color = draw_color;
+        draw_color = temp_bg_color;
+    }
+
+    int bg_r = (bg_color & 0xFF0000) >> 16;
+    int bg_g = (bg_color & 0x00FF00) >> 8;
+    int bg_b = (bg_color & 0x0000FF);
+
+    int drw_r = (draw_color & 0xFF0000) >> 16;
+    int drw_g = (draw_color & 0x00FF00) >> 8;
+    int drw_b = (draw_color & 0x0000FF);
+
     for (int y = 0; y < 32; y++) {
         for (int x = 0; x < 64; x++) {
             if (Chip8->display[x + y * 64] == 1) {
-                SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                SDL_SetRenderDrawColor(renderer, drw_r, drw_g, drw_b, 0xFF);
             } else if (Chip8->display[x + y * 64] == 0) {
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+                SDL_SetRenderDrawColor(renderer, bg_r, bg_g, bg_b, 0xFF);
+                // 16263f
             }
             SDL_RenderSetScale(renderer, SCALING, SCALING);
             SDL_RenderDrawPoint(renderer, x, y);
