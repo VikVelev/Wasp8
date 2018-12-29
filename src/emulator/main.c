@@ -38,6 +38,8 @@ int main(int argc, char ** argv) {
     initialize(&Chip8);
     load_game(&Chip8, "/home/viktorv/Projects/Wasp8/BRIX");
     
+    long bg_color = 0x101b2d;
+    long draw_color = 0xf4f4f4;
 
     Chip8.draw_flag = 0;
     Chip8.running = 1;
@@ -45,19 +47,17 @@ int main(int argc, char ** argv) {
 
     //Chip8.log(Chip8);
     while(Chip8.running) {
-        
+
         // Emulate one cycle
         emulate_cycle(&Chip8);
         event_handling_SDL(&Chip8.running, &Chip8);
 
-        long bg_color = 0x101b2d;
-        long draw_color = 0xf4f4f4;
         // If the draw flag is set, update the screen
         // only two opcodes should set this flag: 0x00E0, 0xDXYN
-    
+
         if(Chip8.draw_flag) {
             // draw_graphics(chip8 *Chip8, long bg_color, long draw_color, int (bool) invert colors, int (bool) swap colors)
-            draw_graphics(&Chip8, bg_color, draw_color, 0, 1);
+            draw_graphics(&Chip8, bg_color, draw_color, 0, 0);
             Chip8.draw_flag = 0;
         }
         

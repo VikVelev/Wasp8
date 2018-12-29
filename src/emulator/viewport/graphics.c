@@ -114,7 +114,6 @@ int draw_graphics(chip8 *Chip8, long bg_color, long draw_color, int invert, int 
                 SDL_SetRenderDrawColor(renderer, drw_r, drw_g, drw_b, 0xFF);
             } else if (Chip8->display[x + y * 64] == 0) {
                 SDL_SetRenderDrawColor(renderer, bg_r, bg_g, bg_b, 0xFF);
-                // 16263f
             }
             SDL_RenderSetScale(renderer, SCALING, SCALING);
             SDL_RenderDrawPoint(renderer, x, y);

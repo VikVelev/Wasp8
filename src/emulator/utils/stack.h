@@ -41,7 +41,7 @@ int isEmpty(Stack* stack) {
 void push(Stack* stack, unsigned short item) { 
 	if (isFull(stack)) {
 		printf("The stack is full. \n");
-		return; 
+		return;
 	}
 	stack->array[++stack->top] = item;
 	printf("PC: %d pushed to stack.\n", item); 
