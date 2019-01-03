@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include "cpu/cpu.c"
 #include "utils/io.c"
@@ -15,6 +16,7 @@ const int isWeb = 0;
 #endif
 
 const int REFRESH_RATE = 60;
+chip8 Chip8;
 
 int main(int argc, char ** argv) {
 
@@ -27,10 +29,9 @@ int main(int argc, char ** argv) {
         printf("WASM Loaded, standing by.\n");
     }
 
-    chip8 Chip8;
     Chip8.log = debug_log;
     Chip8.debug_screen = 0;
-    Chip8.vintage_emulation = 0;
+    Chip8.vintage_emulation = 1;
 
     setup_input(&Chip8);
     
@@ -43,13 +44,26 @@ int main(int argc, char ** argv) {
 
     Chip8.draw_flag = 0;
     Chip8.running = 1;
-    // Emulation loop
-
+    int timer = 0;
     //Chip8.log(Chip8);
+
+    int thread_number = 1;
+    pthread_t timer_thread;
+    int code;
+
+    printf("Spawning timer thread!\n");
+    code = pthread_create(&timer_thread, NULL, Timer, &Chip8);
+
+    if(code) {
+        printf("ERROR; return code from pthread_create() is %d\n", code);
+        exit(-1);
+    }
+    // Emulation loop
+    
     while(Chip8.running) {
 
         // Emulate one cycle
-        emulate_cycle(&Chip8);
+        emulate_cycle(&Chip8, &timer);
         event_handling_SDL(&Chip8.running, &Chip8);
 
         // If the draw flag is set, update the screen
@@ -60,10 +74,10 @@ int main(int argc, char ** argv) {
             draw_graphics(&Chip8, bg_color, draw_color, 0, 0);
             Chip8.draw_flag = 0;
         }
-        
-        usleep(1000*1000/840);
+        usleep(1000);
+
     }
-    
+
     printf("Closing...\n");
 
     return 0;

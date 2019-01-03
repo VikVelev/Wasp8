@@ -3,7 +3,7 @@
 #include <limits.h>
 #include <stdio.h>
 
-static const int SCALING = 16;
+static const int SCALING = 32;
 static int WIDTH  = 64 * SCALING;
 static int HEIGHT = 32 * SCALING;
 static int BPP    = 32;

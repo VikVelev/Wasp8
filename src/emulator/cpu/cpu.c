@@ -54,8 +54,9 @@ void initialize(chip8 *Chip8) {
     Chip8->draw_flag = 1;
 }
 
-void emulate_cycle(chip8 *Chip8) {
+void emulate_cycle(chip8 *Chip8, int *timer) {
     fetch_opcode(Chip8);
+    // Timer ticking happens on another thread
     decode_and_execute_opcode(Chip8);
-    update_timers(Chip8);
+    printf("%d\n", *timer);
 }

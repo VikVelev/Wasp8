@@ -36,3 +36,15 @@ void update_timers(chip8 *Chip8) {
         --Chip8->sound_timer;
     }
 }
+
+void* Timer(chip8 *Chip8) {
+    printf("Thread Spawned.\n");
+
+    while(Chip8->running) {
+        update_timers(Chip8);
+        usleep(16666);
+    }
+
+    pthread_exit(NULL);
+
+}

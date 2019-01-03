@@ -32,6 +32,7 @@ int __0x00E0_reqs(unsigned short opcode) {
 
 void __0x00EE_op(chip8 *Chip8) {
     --Chip8->sp;
+    --Chip8->stack->top;
 
     if (Chip8->sp < 0) {
         printf("Stack underflow!\n");
@@ -58,6 +59,11 @@ int __0x1NNN_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x2NNN_op(chip8 *Chip8) {
+    // if(Chip8->sp < 0 || Chip8->stack->top < 0 || Chip8->sp > 15 || Chip8->stack->top > 15) {
+    //     printf("STACK POINTER %d AND STACK TOP %d\n", Chip8->sp, Chip8->stack->top);
+    //     sleep(5);
+    // }
+
     Chip8->stack->array[Chip8->sp] = Chip8->PC;
     Chip8->sp++;
     Chip8->stack->top++;
@@ -377,7 +383,7 @@ int __0xDXYN_reqs(unsigned short opcode) {
 
 void __0xEX9E_op(chip8 *Chip8) {
     unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
-    Chip8->PC += Chip8->key[vX] != 0 ? 4 : 2; 
+    Chip8->PC += (Chip8->key[vX] != 0 ? 4 : 2); 
 }
 
 int __0xEX9E_reqs(unsigned short opcode) {
