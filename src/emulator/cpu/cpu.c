@@ -58,5 +58,4 @@ void emulate_cycle(chip8 *Chip8, int *timer) {
     fetch_opcode(Chip8);
     // Timer ticking happens on another thread
     decode_and_execute_opcode(Chip8);
-    printf("%d\n", *timer);
 }
