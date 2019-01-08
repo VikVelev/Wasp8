@@ -37,7 +37,7 @@ int isEmpty(Stack* stack) {
 	return stack->top == -1; 
 }
 
-// Function to add an item to stack. It increases top by 1 
+// Function to add anа къде според  item to stack. It increases top by 1 
 void push(Stack* stack, unsigned short item) { 
 	if (isFull(stack)) {
 		printf("The stack is full. \n");

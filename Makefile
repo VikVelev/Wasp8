@@ -14,18 +14,12 @@ STD_COMPILER := gcc
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-FLAGS ?= -s WASM=1 -O3
 STD_FLAGS ?= -MMD -MP -lm -lpthread `pkg-config --libs --cflags sdl2` -O3
 
 standalone: $(SRCS)
 	@echo "Building standalone version."
 	@web=0
 	$(STD_COMPILER) $(SRC_DIRS)/main.c -o $(STD_BUILD_DIR)/$(STD_TARGET_EXEC) $(STD_FLAGS) -g
-
-wasp8: $(SRCS)
-	@echo "Building WASM module..." 
-	@web=1
-	$(COMPILER) $(SRC_DIRS)/main.c -o $(BUILD_DIR)/$(TARGET_EXEC) $(FLAGS)
 
 .PHONY: clean
 

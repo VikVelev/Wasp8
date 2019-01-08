@@ -5,6 +5,7 @@
         "*.obj": "bat",
         "*.mlx": "xml",
         "ratio": "cpp",
-        "cpu.h": "c"
+        "cpu.h": "c",
+        "limits.h": "c"
     }
 }

@@ -7,27 +7,16 @@
 #include "cpu/cpu.c"
 #include "utils/io.c"
 
-#if _isWeb
-const int isWeb = 1;
-#include <emscripten/emscripten.h>
-#else
-const int isWeb = 0;
 #include "./viewport/graphics.c"
-#endif
 
 const int REFRESH_RATE = 60;
 chip8 Chip8;
 
 int main(int argc, char ** argv) {
 
-    const char* _isWeb = getenv("web");
-
-    if(!isWeb) {
-        printf("Standalone version.\n");
-        init_SDL();
-    } else {
-        printf("WASM Loaded, standing by.\n");
-    }
+    printf("Standalone version.\n");
+    init_SDL();
+    printf("WASM Loaded, standing by.\n");
 
     Chip8.log = debug_log;
     Chip8.debug_screen = 0;
