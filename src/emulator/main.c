@@ -52,7 +52,7 @@ int main(int argc, char ** argv) {
     int code;
 
     printf("Spawning timer thread!\n");
-    code = pthread_create(&timer_thread, NULL, Timer, &Chip8);
+    code = pthread_create(&timer_thread, NULL,(void *) Timer, &Chip8);
 
     if(code) {
         printf("ERROR; return code from pthread_create() is %d\n", code);
