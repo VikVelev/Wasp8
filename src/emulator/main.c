@@ -16,7 +16,6 @@ int main(int argc, char ** argv) {
 
     printf("Standalone version.\n");
     init_SDL();
-    printf("WASM Loaded, standing by.\n");
 
     Chip8.log = debug_log;
     Chip8.debug_screen = 0;
