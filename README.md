@@ -1,5 +1,5 @@
 # Wasp8
-A Chip8 C Emulator using Dynamic Recompilation and Raytracing for the rendering engine.
+A Chip8 C Emulator using Dynamic Recompilation and Raytracing for the rendering engine. Currently WIP
 
 ## Goals
 Have fun and learn about stuff.
