@@ -19,7 +19,7 @@ void load_game(chip8 *Chip8, char * rom_dir) {
     unsigned char buffer[ 4096 - 512 ];
     fread(buffer, 4096 - 512, 1, game);
 
-    fseek(game, 0, SEEK_END);
+    fseek(game, 0, SEEK_END); 
     long buffer_size = ftell(game); //size in bytes
     fseek(game, 0, SEEK_SET);
     
