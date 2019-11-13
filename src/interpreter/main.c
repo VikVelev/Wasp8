@@ -33,7 +33,7 @@ int main(int argc, char ** argv) {
     Chip8.draw_flag = 0;
     Chip8.running = 1;
     int timer = 0;
-    //Chip8.log(Chip8);
+    // Chip8.log(Chip8);
 
     int thread_number = 1;
     pthread_t timer_thread;
@@ -58,7 +58,7 @@ int main(int argc, char ** argv) {
         // only two opcodes should set this flag: 0x00E0, 0xDXYN
 
         if(Chip8.draw_flag) {
-            // draw_graphics(chip8 *Chip8, long bg_color, long draw_color, int (bool) invert colors, int (bool) swap colors)
+        // draw_graphics(chip8 *Chip8, long bg_color, long draw_color, int (bool) invert colors, int (bool) swap colors)
             draw_graphics(&Chip8, bg_color, draw_color, 0, 0);
             Chip8.draw_flag = 0;
         }
