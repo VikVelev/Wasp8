@@ -92,6 +92,7 @@ void debug_log(chip8 *Chip8) {
         printf("============DISPLAY===========\n");
 
 
+
         for (int i = 0; i < 32; i++) {
             char row[128] = "";
             for (int j = 0; j < 64; j++) {
