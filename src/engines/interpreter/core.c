@@ -24,7 +24,7 @@ int run_engine(int argc, char ** argv) {
     
     // Initialize the Chip8 system and load the game into the memory  
     initialize(&Chip8);
-    load_game(&Chip8, "/home/viktorv/Projects/Wasp8/BRIX");
+    load_game(&Chip8, argv[1]);
     
     long bg_color = 0x101b2d;
     long draw_color = 0xf4f4f4;

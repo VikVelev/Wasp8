@@ -336,7 +336,6 @@ void __0xCXKK_op(chip8 *Chip8) {
 
     Chip8->V[X] = (rand() % (0xFF + 1)) & KK;
     Chip8->PC += 2;
-
 }
 
 int __0xCXKK_reqs(unsigned short opcode) {
