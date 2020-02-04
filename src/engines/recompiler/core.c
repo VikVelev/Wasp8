@@ -6,7 +6,8 @@
 // if not, cache
 // else use the cache
 
-int main(int argc, char const *argv[]) {
-    printf("Hello\n");
+int run_engine(int argc, char const *argv[]) {
+    printf("Hello 2\n");
+    
     return 0;
 }

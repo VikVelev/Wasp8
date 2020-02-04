@@ -1,4 +1,4 @@
-#include "../utils/stack.h"
+#include "../../utils/stack.h"
 #include "string.h"
 
 typedef struct {
@@ -11,7 +11,7 @@ typedef struct {
     The 16th register is used  for the ‘carry flag’. Eight bits is one byte 
     so we can use an unsigned char for this purpose:
     */
-    unsigned char V[16]; 
+    unsigned char V[16];
     unsigned short I;  //index register
     unsigned short PC; //program counter, specifies opcode location from memory
     /*
@@ -90,7 +90,6 @@ void debug_log(chip8 *Chip8) {
     if(Chip8->debug_screen) {
         printf("\n");
         printf("============DISPLAY===========\n");
-
 
         for (int i = 0; i < 32; i++) {
             char row[128] = "";

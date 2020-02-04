@@ -1,9 +1,9 @@
 #include <string.h>
 #ifndef CHIP8
-#include "./cpu.h"
+#include "./chip8.h"
 #define CHIP8
 #endif
-#include "./cpu_utils.c"
+#include "./pipeline.c"
 
 void initialize(chip8 *Chip8) {
 

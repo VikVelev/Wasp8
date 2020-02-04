@@ -1,13 +1,11 @@
 RECOMP_TARGET_EXEC ?= wasp8.recompiler.run
-STD_TARGET_EXEC ?= wasp8.run
+STD_TARGET_EXEC ?= wasp8.interpreter.run
 
+RECOMP_BUILD_DIR ?= ./build/recompiler
+STD_BUILD_DIR ?= ./build/interpreter
 
-
-RECOMP_BUILD_DIR ?= src/recompiler/build
-STD_BUILD_DIR ?= src/interpreter/build
-
-SRC_DIRS ?= src/interpreter
-SRC_RECOMP_DIRS ?= src/recompiler
+SRC_DIRS ?= src
+SRC_RECOMP_DIRS ?= src
 
 SRCS := $(shell find $(SRC_DIRS) -name *.c)
 SRCS_RECOMP := $(shell find $(SRC_RECOMP_DIRS) -name *.c)

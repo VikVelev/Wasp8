@@ -17,7 +17,7 @@ Stack* createStack(unsigned capacity)
 { 
 	Stack* stack = (Stack*) malloc(sizeof(Stack)); 
 	stack->capacity = capacity; 
-	stack->top = -1; 
+	stack->top = -1;
 	stack->array = (unsigned short*) malloc(capacity * sizeof(unsigned short));
 	
 	for (int i = 0; i < capacity; i++) {
@@ -38,13 +38,13 @@ int isEmpty(Stack* stack) {
 }
 
 // Function to add anа къде според  item to stack. It increases top by 1 
-void push(Stack* stack, unsigned short item) { 
+void push(Stack* stack, unsigned short item) {
 	if (isFull(stack)) {
 		printf("The stack is full. \n");
 		return;
 	}
 	stack->array[++stack->top] = item;
-	printf("PC: %d pushed to stack.\n", item); 
+	printf("PC: %d pushed to stack.\n", item);
 } 
 
 // Function to remove an item from stack. It decreases top by 1 

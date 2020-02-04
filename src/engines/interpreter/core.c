@@ -4,15 +4,14 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "cpu/cpu.c"
-#include "utils/io.c"
-
-#include "./viewport/graphics.c"
+#include "./cpu.c"
+#include "../../utils/io.c"
+#include "../../viewport/graphics.c"
 
 const int REFRESH_RATE = 60;
 chip8 Chip8;
 
-int main(int argc, char ** argv) {
+int run_engine(int argc, char ** argv) {
 
     printf("Standalone version.\n");
     init_SDL();
