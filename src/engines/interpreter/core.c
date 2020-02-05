@@ -4,16 +4,22 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "./cpu.c"
-#include "../../utils/io.c"
-#include "../../viewport/graphics.c"
+#ifndef CHIP8
+#include "../../base/chip8.h"
+#define CHIP8
+#endif
+
+#include "../../base/io/io.h"
+#include "../../base/io/graphics.h"
+
+#include "./pipeline.c"
 
 const int REFRESH_RATE = 60;
 chip8 Chip8;
 
 int run_engine(int argc, char ** argv) {
 
-    printf("Standalone version.\n");
+    printf("Standalone Interpreter version.\n");
     init_SDL();
 
     Chip8.log = debug_log;

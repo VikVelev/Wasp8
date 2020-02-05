@@ -11,7 +11,7 @@ SRCS := $(shell find $(SRC_DIRS) -name *.c)
 SRCS_RECOMP := $(shell find $(SRC_RECOMP_DIRS) -name *.c)
 
 RECOMP_COMPILER := clang
-STD_COMPILER := gcc
+STD_COMPILER := clang
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
@@ -23,12 +23,12 @@ DEBUG_FLAGS = -g
 
 interpreter: $(SRCS)
 	@echo "Building standalone version."
-	$(STD_COMPILER) $(SRC_DIRS)/main.c -o $(STD_BUILD_DIR)/$(STD_TARGET_EXEC) $(STD_FLAGS) $(DEBUG_FLAGS)
+	$(STD_COMPILER) $(SRC_DIRS)/main.c -DINTERPRETER -o $(STD_BUILD_DIR)/$(STD_TARGET_EXEC) $(STD_FLAGS) $(DEBUG_FLAGS)
 	@echo "Done"
 
 recompiler: $(SRCS_RECOMP)
 	@echo "Building a dynamic recompiler."
-	$(RECOMP_COMPILER) $(SRC_RECOMP_DIRS)/main.c -o $(RECOMP_BUILD_DIR)/$(RECOMP_TARGET_EXEC) $(RECOMP_FLAGS) $(DEBUG_FLAGS)
+	$(RECOMP_COMPILER) $(SRC_RECOMP_DIRS)/main.c -DRECOMPILER -o $(RECOMP_BUILD_DIR)/$(RECOMP_TARGET_EXEC) $(RECOMP_FLAGS) $(DEBUG_FLAGS)
 	@echo "Done"
 
 .PHONY: clean

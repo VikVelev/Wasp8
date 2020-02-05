@@ -4,19 +4,17 @@
 #include <limits.h> 
 
 // A structure to represent a stack 
-typedef struct 
-{ 
-	unsigned short top; 
+typedef struct { 
+	int top; 
 	unsigned capacity; 
 	unsigned short* array; 
 } Stack; 
 
 // function to create a stack of given capacity. It initializes size of 
 // stack as 0 
-Stack* createStack(unsigned capacity) 
-{ 
-	Stack* stack = (Stack*) malloc(sizeof(Stack)); 
-	stack->capacity = capacity; 
+Stack* createStack(unsigned capacity) { 
+	Stack* stack = (Stack*) malloc(sizeof(Stack));
+	stack->capacity = capacity;
 	stack->top = -1;
 	stack->array = (unsigned short*) malloc(capacity * sizeof(unsigned short));
 	

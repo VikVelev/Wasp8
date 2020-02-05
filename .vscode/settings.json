@@ -6,6 +6,10 @@
         "*.mlx": "xml",
         "ratio": "cpp",
         "cpu.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "chip8.h": "c",
+        "graphics.h": "c",
+        "io.h": "c",
+        "stack.h": "c"
     }
 }

@@ -1,4 +1,3 @@
-#include "./io.h"
 
 void setup_input(chip8 *Chip8) {
     printf("Setting up input.\n");

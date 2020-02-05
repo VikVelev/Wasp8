@@ -1,5 +1,5 @@
 #ifndef CHIP8
-#include "cpu.h"
+#include "./chip8.h"
 #define CHIP8
 #endif
 
@@ -560,11 +560,9 @@ int __0xFX65_reqs(unsigned short opcode) {
 
 
 typedef struct {
-
     const char *opcode_name;
     int (*suffices) (unsigned short opcode);
     void (*exec) (chip8 *Chip8);
-
 } opcode;
 
 opcode opcode_map [] = {

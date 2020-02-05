@@ -1,4 +1,4 @@
-#include "opcodes.c"
+#include "../../base/opcodes.h"
 
 void fetch_opcode(chip8 *Chip8) {
     //concatinating two bytes (each opcode is 2 bytes)
@@ -21,6 +21,12 @@ void decode_and_execute_opcode(chip8 *Chip8) {
             Chip8->running = 0;
         }
     }
+}
+
+void emulate_cycle(chip8 *Chip8, int *timer) {
+    fetch_opcode(Chip8);
+    // Timer ticking happens on another thread
+    decode_and_execute_opcode(Chip8);
 }
 
 void update_timers(chip8 *Chip8) {
