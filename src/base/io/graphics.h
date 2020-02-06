@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <stdio.h>
 
+const int REFRESH_RATE = 60;
 static const int SCALING = 16;
 static int WIDTH  = 64 * SCALING;
 static int HEIGHT = 32 * SCALING;
