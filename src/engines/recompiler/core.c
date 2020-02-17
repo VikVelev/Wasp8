@@ -25,10 +25,12 @@ int run_engine(chip8 *Chip8, int argc, char ** argv) {
 
     // Dispatcher Loop
     while(Chip8->running) {
-
+        
+        void* x86_eip = get_x86_eip();
+        printf("%p\n", x86_eip);
         // Execute a batch of opcodes (could already be compiled or not) 
         // (batch could be with size 1 or more, depending on the cache and the followin opcodes)
-        execute_batch(Chip8, &State, &timer);
+        execute_batch(Chip8, &cState, &timer);
         event_handling_SDL(&Chip8->running, Chip8);
 
         // If the draw flag is set, update the screen
