@@ -10,7 +10,7 @@ int main(int argc, char ** argv) {
     // argv[1] is path_to_rom
     // ./wasp8 path_to_rom
     init_SDL();
-
+    
     Chip8.log = debug_log;
     Chip8.debug_screen = 0;
     Chip8.vintage_emulation = 1;

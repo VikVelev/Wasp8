@@ -10,6 +10,16 @@
         "chip8.h": "c",
         "graphics.h": "c",
         "io.h": "c",
-        "stack.h": "c"
-    }
+        "stack.h": "c",
+        "glib.h": "c",
+        "init_state.c": "cpp",
+        "array": "cpp",
+        "hash_map": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "valarray": "cpp"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

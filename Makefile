@@ -17,7 +17,7 @@ INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 STD_FLAGS ?= -MMD -MP -lm -lpthread `pkg-config --libs --cflags sdl2` -O3
-RECOMP_FLAGS ?= -MMD -MP -lm -lpthread `pkg-config --libs --cflags sdl2` -O3
+RECOMP_FLAGS ?= -MMD -MP -lm -lpthread `pkg-config --libs --cflags sdl2` -O3 `pkg-config --cflags --libs glib-2.0` -lm -lglib
 
 DEBUG_FLAGS = -g
 

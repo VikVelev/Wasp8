@@ -10,6 +10,7 @@
 
 #include "./cache_manager/x86/state.h"
 
+
 int run_engine(chip8 *Chip8, int argc, char ** argv) {
 
     printf("Standalone Recompiler version.\n");
@@ -17,13 +18,17 @@ int run_engine(chip8 *Chip8, int argc, char ** argv) {
     long bg_color = 0x101b2d;
     long draw_color = 0xf4f4f4;
     int timer = 0;
+    
+    // state holds jump table and cached translated code.
+    state cState;
+    init_state(&cState);
 
     // Dispatcher Loop
     while(Chip8->running) {
 
-        // Emulate one cycle
-        // emulate_cycle(&Chip8, &timer);
-        printf("Doing nothing...\n");
+        // Execute a batch of opcodes (could already be compiled or not) 
+        // (batch could be with size 1 or more, depending on the cache and the followin opcodes)
+        execute_batch(Chip8, &State, &timer);
         event_handling_SDL(&Chip8->running, Chip8);
 
         // If the draw flag is set, update the screen
