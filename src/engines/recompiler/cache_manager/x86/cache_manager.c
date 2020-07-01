@@ -4,26 +4,27 @@
 #endif
 
 void* get_x86_eip() {
+    // Nasty hack to get the instruction pointer
     return get_x86_eip;
 }
 
-int setup_cache(chip8 *Chip8, state *cState) {
-
+int cache_setup(chip8 *Chip8, state *cState, cache *Cache) {
+    // TODO
     return 1;
 }
 
-int exec_cache(chip8 *Chip8, state *cState) {
+int cache_insert(chip8 *Chip8, state *cState, cache *Cache) {
+    // TODO
+    return 1;
+}
 
+int cache_exec(chip8 *Chip8, state *cState, cache *Cache) {
+    // TODO
     return 1;
 }
 
 
-int execute_batch(chip8 *Chip8, state *cState, int *timer) {
-    // if (g_hash_table_lookup(cState->caches, Chip8->memory[Chip8->PC])) {
-        // execute the code
-    // } else {
-        // interpret, translate, emit the file into the cache table;
-    // }
-
+int cache_exec_batch(chip8 *Chip8, state *cState, cache *Cache, int *timer) {
+    // TODO
     return 1;
 }

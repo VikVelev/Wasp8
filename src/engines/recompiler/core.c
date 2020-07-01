@@ -9,6 +9,8 @@
 #include "../../base/io/graphics.h"
 
 #include "./cache_manager/x86/state.h"
+#include "./translator/translator.h"
+
 
 
 int run_engine(chip8 *Chip8, int argc, char ** argv) {
@@ -21,16 +23,23 @@ int run_engine(chip8 *Chip8, int argc, char ** argv) {
     
     // state holds jump table and cached translated code.
     state cState;
-    init_state(&cState);
+    translator core_translator;
+    
+    initialize_state(&cState);
+    initialize_translator(&core_translator);
 
     // Dispatcher Loop
     while(Chip8->running) {
         
         void* x86_eip = get_x86_eip();
-        printf("%p\n", x86_eip);
+        cState.x86_resume_address = x86_eip;
+
+        printf("x86_eip %p\n", x86_eip);
         // Execute a batch of opcodes (could already be compiled or not) 
         // (batch could be with size 1 or more, depending on the cache and the followin opcodes)
-        execute_batch(Chip8, &cState, &timer);
+        cache _cache = core_translator.translate_next_batch(Chip8, &cState);
+        cache_exec_batch(Chip8, &cState, &_cache, &timer);
+        
         event_handling_SDL(&Chip8->running, Chip8);
 
         // If the draw flag is set, update the screen

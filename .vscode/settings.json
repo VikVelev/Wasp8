@@ -19,7 +19,12 @@
         "string_view": "cpp",
         "initializer_list": "cpp",
         "utility": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "locale": "c",
+        "string": "c",
+        "state.h": "c",
+        "translator.h": "c",
+        "complex": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }
