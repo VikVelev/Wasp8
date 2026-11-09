@@ -5,6 +5,16 @@ A Chip8 C Emulator using Dynamic Recompilation and Raytracing for the rendering 
 Have fun and learn about stuff.
 Create the most overengineered Chip8 emulator ever.
 
+## Raytracing
+The screen can be path traced with [PTS4D](https://github.com/VikVelev/PTS4D), every pixel becomes a glowing cube.
+Clone it next to this repo and build with:
+
+```
+make interpreter RENDERER=pts4d
+```
+
+`WASP8_RENDERER=flat` switches back to the normal look, `WASP8_STATS=1` prints fps and samples per pixel.
+
 
 ### TODOs
 
