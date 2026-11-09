@@ -41,6 +41,7 @@ int run_engine(chip8 *Chip8, int argc, char ** argv) {
         cache_exec_batch(Chip8, &cState, &_cache, &timer);
         
         event_handling_SDL(&Chip8->running, Chip8);
+        present_tick();
 
         // If the draw flag is set, update the screen
         // only two opcodes should set this flag: 0x00E0, 0xDXYN
