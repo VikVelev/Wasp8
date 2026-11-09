@@ -1,5 +1,6 @@
 #include "./renderer.h"
 #include "./renderer_flat.c"
+#include "./renderer_pts4d.c"
 
 SDL_Surface* screen = NULL;
 SDL_Renderer* renderer = NULL;
@@ -11,11 +12,31 @@ static const unsigned DEFAULT_DRAW_COLOR = 0xf4f4f4;
 
 static const wasp8_renderer *active_renderer = NULL;
 
+// Uses pts4d if it was compiled in, unless WASP8_RENDERER=flat.
+// Falls back to flat if pts4d fails to start.
 void select_renderer() {
-    if (flat_renderer.init(renderer, WIDTH, HEIGHT, DEFAULT_DRAW_COLOR, DEFAULT_BG_COLOR) == 0) {
-        active_renderer = &flat_renderer;
-    } else {
-        printf("Failed to start the flat renderer.\n");
+    const char *wanted = getenv("WASP8_RENDERER");
+    const wasp8_renderer *renderers[2];
+    int count = 0;
+
+#ifdef WASP8_PTS4D
+    if (!wanted || strcmp(wanted, "flat") != 0) {
+        renderers[count++] = &pts4d_renderer;
+    }
+#else
+    if (wanted && strcmp(wanted, "pts4d") == 0) {
+        printf("Not built with PTS4D (make RENDERER=pts4d), using flat.\n");
+    }
+#endif
+    renderers[count++] = &flat_renderer;
+
+    for (int i = 0; i < count; i++) {
+        if (renderers[i]->init(renderer, WIDTH, HEIGHT, DEFAULT_DRAW_COLOR, DEFAULT_BG_COLOR) == 0) {
+            active_renderer = renderers[i];
+            printf("Using the %s renderer.\n", active_renderer->name);
+            return;
+        }
+        printf("Failed to start the %s renderer.\n", renderers[i]->name);
     }
 }
 

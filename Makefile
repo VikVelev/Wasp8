@@ -21,17 +21,33 @@ RECOMP_FLAGS ?= -MMD -MP -lm -lpthread `pkg-config --libs --cflags sdl2` -O3 `pk
 
 DEBUG_FLAGS = -g
 
-interpreter: $(SRCS)
+# Optional path-traced renderer: make interpreter RENDERER=pts4d [PTS4D_DIR=../PTS4D/pts4d]
+RENDERER ?= flat
+PTS4D_DIR ?= ../PTS4D/pts4d
+PTS4D_LIB_DIR ?= $(PTS4D_DIR)/target/release
+
+ifeq ($(RENDERER),pts4d)
+RENDER_FLAGS := -DWASP8_PTS4D $(PTS4D_LIB_DIR)/libpts4d.a -lpthread -ldl -lrt -lutil -lm
+RENDER_DEPS := pts4d-lib
+else
+RENDER_FLAGS :=
+RENDER_DEPS :=
+endif
+
+interpreter: $(SRCS) $(RENDER_DEPS)
 	@echo "Building standalone version."
-	$(STD_COMPILER) $(SRC_DIRS)/main.c -DINTERPRETER -o $(STD_BUILD_DIR)/$(STD_TARGET_EXEC) $(STD_FLAGS) $(DEBUG_FLAGS)
+	$(STD_COMPILER) $(SRC_DIRS)/main.c -DINTERPRETER -o $(STD_BUILD_DIR)/$(STD_TARGET_EXEC) $(STD_FLAGS) $(RENDER_FLAGS) $(DEBUG_FLAGS)
 	@echo "Done"
 
-recompiler: $(SRCS_RECOMP)
+recompiler: $(SRCS_RECOMP) $(RENDER_DEPS)
 	@echo "Building a dynamic recompiler."
-	$(RECOMP_COMPILER) $(SRC_RECOMP_DIRS)/main.c -DRECOMPILER -o $(RECOMP_BUILD_DIR)/$(RECOMP_TARGET_EXEC) $(RECOMP_FLAGS) $(DEBUG_FLAGS)
+	$(RECOMP_COMPILER) $(SRC_RECOMP_DIRS)/main.c -DRECOMPILER -o $(RECOMP_BUILD_DIR)/$(RECOMP_TARGET_EXEC) $(RECOMP_FLAGS) $(RENDER_FLAGS) $(DEBUG_FLAGS)
 	@echo "Done"
 
-.PHONY: clean
+.PHONY: clean pts4d-lib
+
+pts4d-lib:
+	cargo build --release --lib --no-default-features --manifest-path $(PTS4D_DIR)/Cargo.toml
 
 clean:
 	$(RM) -r $(STD_BUILD_DIR)
