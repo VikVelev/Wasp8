@@ -31,12 +31,13 @@ int __0x00E0_reqs(unsigned short opcode) {
 //===========================================
 
 void __0x00EE_op(chip8 *Chip8) {
+    if (Chip8->sp == 0) {
+        printf("Stack underflow at PC %d, stopping.\n", Chip8->PC);
+        Chip8->running = 0;
+        return;
+    }
     --Chip8->sp;
     --Chip8->stack->top;
-
-    if (Chip8->sp < 0) {
-        printf("Stack underflow!\n");
-    }
 
     Chip8->PC = Chip8->stack->array[Chip8->sp];
     Chip8->PC += 2;
@@ -64,6 +65,11 @@ void __0x2NNN_op(chip8 *Chip8) {
     //     sleep(5);
     // }
 
+    if (Chip8->sp >= 16) {
+        printf("Stack overflow at PC %d, stopping.\n", Chip8->PC);
+        Chip8->running = 0;
+        return;
+    }
     Chip8->stack->array[Chip8->sp] = Chip8->PC;
     Chip8->sp++;
     Chip8->stack->top++;
@@ -345,18 +351,21 @@ int __0xCXKK_reqs(unsigned short opcode) {
 //===========================================
 
 void __0xDXYN_op(chip8 *Chip8) {
-    unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8];
-    unsigned short vY = Chip8->V[(Chip8->opcode & 0x00F0) >> 4];
+    // The start position wraps around the screen; the parts of the sprite
+    // that then run past the right or bottom edge are clipped. Without this,
+    // sprites near the edge wrote past display[] and corrupted memory.
+    unsigned short vX = Chip8->V[(Chip8->opcode & 0x0F00) >> 8] % 64;
+    unsigned short vY = Chip8->V[(Chip8->opcode & 0x00F0) >> 4] % 32;
     unsigned short N = Chip8->opcode & 0x000F;
     
     unsigned char pixel;
 
     Chip8->V[0xF] = 0;
 
-    for (int yline = 0; yline < N; yline++) {
+    for (int yline = 0; yline < N && vY + yline < 32; yline++) {
 
-        pixel = Chip8->memory[Chip8->I + yline];
-        for(int xline = 0; xline < 8; xline++) {
+        pixel = Chip8->memory[(Chip8->I + yline) & 0xFFF];
+        for(int xline = 0; xline < 8 && vX + xline < 64; xline++) {
 
             if((pixel & (0x80 >> xline)) != 0) {
 
@@ -499,9 +508,9 @@ int __0xFX29_reqs(unsigned short opcode) {
 void __0xFX33_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
-    Chip8->memory[Chip8->I]     = Chip8->V[X] / 100;
-    Chip8->memory[Chip8->I + 1] = (Chip8->V[X] / 10) % 10;
-    Chip8->memory[Chip8->I + 2] = (Chip8->V[X] % 100) % 10;
+    Chip8->memory[Chip8->I & 0xFFF]       = Chip8->V[X] / 100;
+    Chip8->memory[(Chip8->I + 1) & 0xFFF] = (Chip8->V[X] / 10) % 10;
+    Chip8->memory[(Chip8->I + 2) & 0xFFF] = (Chip8->V[X] % 100) % 10;
     Chip8->PC += 2;
 
 }
@@ -516,7 +525,7 @@ void __0xFX55_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
     for (int i = 0; i < X + 1; i++) {
-        Chip8->memory[Chip8->I + i] = Chip8->V[i];
+        Chip8->memory[(Chip8->I + i) & 0xFFF] = Chip8->V[i];
     }
 
     // On the original interpreter, when the
@@ -540,7 +549,7 @@ void __0xFX65_op(chip8 *Chip8) {
     unsigned short X = (Chip8->opcode & 0x0F00) >> 8;
 
     for (int i = 0; i < X + 1; i++) {
-        Chip8->V[i] = Chip8->memory[Chip8->I + i];
+        Chip8->V[i] = Chip8->memory[(Chip8->I + i) & 0xFFF];
     }
 
     // On the original interpreter, when the
